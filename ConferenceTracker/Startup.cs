@@ -49,7 +49,10 @@ namespace ConferenceTracker
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            if(!env.IsDevelopment())
+            {
+                app.UseHsts();
+            }
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
