@@ -32,6 +32,7 @@ namespace ConferenceTracker
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("ConferenceTracker"));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.Configure<CookiePolicyOptions>(options => { options.CheckConsentNeeded = context => true; options.MinimumSameSitePolicy = SameSiteMode.None; });
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddTransient<IPresentationRepository, PresentationRepository>();
@@ -60,7 +61,7 @@ namespace ConferenceTracker
             app.UseCors(_allowedOrigins);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseCookiePolicy();
             app.UseRouting();
 
             app.UseAuthentication();
